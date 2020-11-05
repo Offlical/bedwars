@@ -37,8 +37,8 @@ public class GameManager {
         this.genereateSpawnLocs();
         HashSet<TeamColor> usedColors = new HashSet<>(); // to not accidently send a team to an already taken color
         this.gameType = GameType.INGAME;
-        this.markAsStarting();
         gameTime.start();
+        this.markAsStarting();
         /**
          * game start logc
          * cqptain: I'm putting this apart of GameTime

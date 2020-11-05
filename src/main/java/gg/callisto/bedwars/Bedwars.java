@@ -36,7 +36,7 @@ public class Bedwars extends JavaPlugin {
 
     public void setupListeners() {
         this.getServer().getPluginManager().registerEvents(new PlayerInteract(),this);
-        this.getServer().getPluginManager().registerEvents(new PlayerJoin(),this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoin(this),this);
         this.getServer().getPluginManager().registerEvents(new PlayerQuit(),this);
         this.getServer().getPluginManager().registerEvents(new PlayerDeath(),this);
         this.getServer().getPluginManager().registerEvents(new EntityInteract(),this);

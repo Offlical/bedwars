@@ -3,7 +3,10 @@ package gg.callisto.bedwars.game;
 import gg.callisto.bedwars.Bedwars;
 import gg.callisto.bedwars.generators.Generator;
 import gg.callisto.bedwars.generators.GeneratorManager;
+import gg.callisto.bedwars.util.MessageType;
+import gg.callisto.bedwars.util.MessageUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTime {
@@ -17,6 +20,8 @@ public class GameTime {
     private BukkitRunnable timeRunnable;
     private Bedwars bedwars;
     private Long secondsInGame;
+    private BukkitRunnable countdownRunnable;
+    private Integer countdown;
 
     public GameTime(Bedwars bedwars) {
         gameManager = bedwars.getGameManager();
@@ -51,6 +56,32 @@ public class GameTime {
 
     }
 
+    public void startCountdown(){
+        countdown = 21;
+        this.countdownRunnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                countdown--;
+                if(countdown == 0){
+                    countdownRunnable.cancel();
+                    bedwars.getGameManager().start();
+                    countdownRunnable = null;
+                } else {
+                    boolean check = countdown == 20 || countdown <= 10;
+                    if(check){
+                        MessageUtil.broadcastMessage(MessageType.INFO, "%" + countdown + " seconds remaining...");
+                    }
+                }
+            }
+        };
+        this.countdownRunnable.runTaskTimerAsynchronously(bedwars,20,0);
+    }
+
+    public void stopCountdown(){
+        this.countdownRunnable.cancel();
+        this.countdownRunnable = null;
+        bedwars.getGameManager().setGameType(GameType.PRE_GAME);
+    }
 
     /**
      * isn't needed yet

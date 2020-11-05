@@ -36,13 +36,13 @@ public class GameManager {
     public void start() {
         this.genereateSpawnLocs();
         HashSet<TeamColor> usedColors = new HashSet<>(); // to not accidently send a team to an already taken color
-        this.gameType = GameType.COUNTDOWN;
-        gameTime.start();
+        this.gameType = GameType.INGAME;
         this.markAsStarting();
+        gameTime.start();
         /**
          * game start logc
+         * cqptain: I'm putting this apart of GameTime
          */
-        this.gameType = GameType.INGAME;
     }
 
     public void genereateSpawnLocs() {
@@ -65,5 +65,6 @@ public class GameManager {
 
     public void forceStop() {}
 
+    public void setGameType(GameType gameType){ this.gameType = gameType; }
 
 }

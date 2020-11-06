@@ -1,5 +1,6 @@
 package gg.callisto.bedwars;
 
+import gg.callisto.bedwars.cmds.TestCmds;
 import gg.callisto.bedwars.game.GameManager;
 import gg.callisto.bedwars.game.GameTime;
 import gg.callisto.bedwars.generators.GeneratorManager;
@@ -7,8 +8,11 @@ import gg.callisto.bedwars.listeners.*;
 import gg.callisto.bedwars.teams.TeamsManager;
 import gg.callisto.bedwars.util.NBTManager;
 import lombok.Getter;
+import org.bukkit.Location;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashSet;
 
 @Getter
 public class Bedwars extends JavaPlugin {
@@ -18,6 +22,8 @@ public class Bedwars extends JavaPlugin {
     private GeneratorManager generatorManager;
     private NBTManager nbtManager;
     private GameTime gameTime;
+    private HashSet<Location> placedBlocks;
+
 
     @Override
     public void onEnable() {
@@ -31,18 +37,19 @@ public class Bedwars extends JavaPlugin {
       this.generatorManager = new GeneratorManager(this);
       this.gameTime = new GameTime(this);
       this.nbtManager = new NBTManager(this);
-
     }
 
     public void setupListeners() {
+        placedBlocks = new HashSet<>();
         this.getServer().getPluginManager().registerEvents(new PlayerInteract(),this);
         this.getServer().getPluginManager().registerEvents(new PlayerJoin(),this);
         this.getServer().getPluginManager().registerEvents(new PlayerQuit(),this);
         this.getServer().getPluginManager().registerEvents(new PlayerDeath(),this);
         this.getServer().getPluginManager().registerEvents(new EntityInteract(),this);
         this.getServer().getPluginManager().registerEvents(new EntityAttackEntity(),this);
-        this.getServer().getPluginManager().registerEvents(new BlockBreak(),this);
-        this.getServer().getPluginManager().registerEvents(new BlockPlace(),this);
+        this.getServer().getPluginManager().registerEvents(new BlockBreak(this),this);
+        this.getServer().getPluginManager().registerEvents(new BlockPlace(this),this);
+        this.getCommand("gentest").setExecutor(new TestCmds(this));
     }
 
 }

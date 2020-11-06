@@ -3,3 +3,8 @@ main: gg.callisto.bedwars.Bedwars
 api-version: 1.16
 version: 1.0
 website: https://www.callisto.gg/
+
+
+commands:
+  gentest:
+    usage: /<command>

@@ -13,11 +13,13 @@ public class GeneratorManager {
 
 
     private HashSet<Generator> gens;
+    private HashSet<GeneratorList> genLists;
     private GameManager gameManager;
 
     public GeneratorManager(Bedwars bedwars) {
         this.gameManager = bedwars.getGameManager();
         gens = new HashSet<>();
+        genLists = new HashSet<>();
     }
 
     public void addGen(Generator gen) {
@@ -28,6 +30,14 @@ public class GeneratorManager {
         gens.remove(gen);
     }
 
+
+    public void addGenList(GeneratorList list) {
+        genLists.add(list);
+    }
+
+    public void removeGenList(GeneratorList list) {
+        genLists.remove(list);
+    }
 
 
 

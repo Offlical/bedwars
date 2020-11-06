@@ -1,12 +1,13 @@
 package gg.callisto.bedwars.generators;
 
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import java.util.*;
 
 @Getter
 public class Generator {
@@ -17,16 +18,16 @@ public class Generator {
      * a spawn rate for each upgrade that happens just like in hypixel bedwars - diamond 1, diamond 2, etc.
      * spawnRates by every ___ seconds a diamond spawns, etc.
      */
-    private List<Double> spawnRates;
+    private List<Integer> spawnRates;
     /**
      * Time(s) since the game started for each upgrade, in seconds.
      */
     private List<Integer> upgradeTimes;
-    private double currentSpawnRate;
+    private int currentSpawnRate;
     private int currentTier;
 
 
-    public Generator(GeneratorType type, Location spawnLocation, List<Double> spawnRates, List<Integer> upgradeTimes) {
+    public Generator(GeneratorType type, Location spawnLocation, List<Integer> spawnRates, List<Integer> upgradeTimes) {
         this.type = type;
         this.spawnLocation = spawnLocation;
         this.spawnRates = spawnRates;
@@ -34,13 +35,28 @@ public class Generator {
         currentSpawnRate = spawnRates.get(0);
         currentTier = 1;
     }
+    public Generator(GeneratorType type, Location spawnLocation, int currentSpawnRate) {
+        this.type = type;
+        this.spawnLocation = spawnLocation;
+        this.spawnRates = new ArrayList<Integer>();
+        this.upgradeTimes = new ArrayList<Integer>();
+        this.currentSpawnRate = currentSpawnRate;
+        currentTier = 1;
+    }
 
-    public Integer getNextUpgradeTime() { return upgradeTimes.get(currentTier - 1); }
+
+    public Integer getNextUpgradeTime() {
+        if(upgradeTimes.isEmpty() || spawnRates.isEmpty()) return 0;
+        return upgradeTimes.get(currentTier - 1);
+    }
 
     public void upgrade() {
+        if(upgradeTimes.isEmpty() || spawnRates.isEmpty()) return;
+        System.out.println("upgrading from " + currentTier + " to " + (currentTier+1));
         currentTier++;
-        if(currentTier > spawnRates.size())
+        if(currentTier <= spawnRates.size()) {
             this.currentSpawnRate = spawnRates.get((currentTier - 1));
+        }
     }
 
     public void spawnItem() {

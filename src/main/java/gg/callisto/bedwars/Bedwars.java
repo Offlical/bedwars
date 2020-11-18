@@ -40,7 +40,7 @@ public class Bedwars extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new PlayerQuit(this),this);
         this.getServer().getPluginManager().registerEvents(new PlayerDeath(),this);
         this.getServer().getPluginManager().registerEvents(new EntityInteract(),this);
-        this.getServer().getPluginManager().registerEvents(new EntityAttackEntity(),this);
+        this.getServer().getPluginManager().registerEvents(new EntityAttackEntity(this),this);
         this.getServer().getPluginManager().registerEvents(new BlockBreak(),this);
         this.getServer().getPluginManager().registerEvents(new BlockPlace(),this);
     }

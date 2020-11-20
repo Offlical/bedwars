@@ -1,6 +1,5 @@
 package gg.callisto.bedwars.generators;
 
-
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

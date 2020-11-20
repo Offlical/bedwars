@@ -20,6 +20,7 @@ public class GeneratorList  {
    private List<Integer> upgradeTimes;
    private GeneratorType type;
    private int currentTier;
+   private int baseGenIndi;
 
    public GeneratorList(GeneratorType type, List<Location> spawnLocations, List<Integer> spawnRates, List<Integer> upgradeTimes) {
       this.spawnLocations = spawnLocations;
@@ -28,6 +29,7 @@ public class GeneratorList  {
       this.upgradeTimes = upgradeTimes;
       this.currentSpawnRate = spawnRates.get(0);
       currentTier = 1;
+      this.baseGenIndi = 0;
    }
 
    public Integer getNextUpgradeTime() {
@@ -47,19 +49,27 @@ public class GeneratorList  {
 
    public void spawnItem() {
       for(Location spawnLocation : spawnLocations.toArray(new Location[spawnLocations.size()])) {
-         Item item = (Item) spawnLocation.getWorld().spawn(spawnLocation, Item.class);
+         Item item = spawnLocation.getWorld().spawn(spawnLocation, Item.class);
          item.setItemStack(new ItemStack(getItem(), 1));
       }
+      if(type == GeneratorType.BASE_GEN)
+         baseGenIndi++;
    }
 
    public Material getItem() {
       if(type.getList().size() == 1) return type.getList().get(0);
-      else {
-
+      else if(type.equals(GeneratorType.BASE_GEN)){
          /**
           *  base gen logic
           */
-
+         if(baseGenIndi == 4) {
+            baseGenIndi = 0;
+            return Material.GOLD_INGOT;
+         }
+         else {
+            baseGenIndi++;
+            return Material.IRON_INGOT;
+         }
       }
       return null;
    }

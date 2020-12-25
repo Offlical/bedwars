@@ -2,6 +2,7 @@ package gg.callisto.bedwars.game;
 
 import gg.callisto.bedwars.generators.Generator;
 import gg.callisto.bedwars.generators.GeneratorList;
+import gg.callisto.bedwars.generators.TeamGenerator;
 import gg.callisto.bedwars.teams.TeamType;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Getter
@@ -27,14 +29,21 @@ public class MapManager  {
      *  A class containing all the map data we need to start a game;
      */
 
-    private HashSet<GeneratorList> generatorLists;
+    private GeneratorList diamondGens;
+    private GeneratorList emeraldGens;
     /*
     a GeneratorList is a class of a couple of gens together, so they're all timed up, this where would diamond gens, emerald gens and base gen go to.
+     */
+    private HashSet<TeamGenerator> generators;
+    /*
+    Like a normal generator, but it connects to a team so it links with their generator upgrades
      */
     private HashSet<Location> spawnLocations;
     // self explanatory
     private HashSet<Location> bedLocations;
     // self explanatory
+
+
     private TeamType[] supportedModes;
     // self explanatory
 
@@ -89,7 +98,10 @@ public class MapManager  {
         }
         mngr.setSupportedModes(modes);
 
-        // someone else try and figure out how to do the generator/locations im not experienced enough for that, will try to learn later on
+        LinkedHashMap<String,Object> generatorSettings = (LinkedHashMap<String, Object>) jsonObject.get("generators");
+
+
+
 
 
         return mngr;
